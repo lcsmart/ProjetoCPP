@@ -1,4 +1,6 @@
 # ProjetoCPP
+
+## Tabela de Estados da FSM
 Repositório do Projeto Final da Matéria Programação C++ para Sistemas Embarcados - UFSC 2018.2
 
 | Estado Atual |      |           |           | Comandos   |           |      |        |
@@ -12,3 +14,6 @@ Repositório do Projeto Final da Matéria Programação C++ para Sistemas Embarc
 | S125         | S125 | S150      | S150 D025 | S150 D075  | S000 D125 | S125 | S125   |
 | S150         | S150 | S150 D025 | S150 D050 | S150 D0100 | S000 D150 | S000 | S000   |
 |              |      |           |           |            |           |      |        |
+
+## Diagrama UML
+![Diagrama UML](umlDiagram.png)

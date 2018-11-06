@@ -1,6 +1,8 @@
 %2F%2F Diagrama de Classes,
 
-[StateMachine|state currentState;|public:;quarterSensor();halfSensor();fullSensor();refundButton();meetButton();etirpsButton()]
+[FSMList|Node *head;Node *ea|public:;List();~List();entradaM025();entradaM050();entradaM100();entradaDEV();entradaMEET();entradaETIRPS();getEstadoAtual()]
+
+[FSMNode|int state;Node *next|public:;Node();getNext();setNext();getState()]
 
 [TerminalInterface|]
 
@@ -20,3 +22,5 @@
 [Advertising]<A-[Queue]
 [OutputInterface]<H-[EmbeddedInterface{bg:tomato}]
 [OutputInterface]<H-[TerminalInterface]
+
+[FSMNode]<A-[FSMList]
