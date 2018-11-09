@@ -1,4 +1,8 @@
-
+//UFSC 2018.2
+//C++ para Sistemas Embarcados
+//Lucas Martins e Rafael Valente
+//Projeto Final - Vending Machine
+//FSMList.cpp
 
 #include "FSMList.h"
 
