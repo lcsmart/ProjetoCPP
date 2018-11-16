@@ -1,17 +1,18 @@
-/*
-   Arquivo Interface.cpp
-   Advertising
- */
+//UFSC 2018.2
+//C++ para Sistemas Embarcados
+//Lucas Martins e Rafael Valente
+//Projeto Final - Vending Machine
+//InterfaceListas.cpp
 
-#include "List.cpp"
+#include "AdvertisingList.cpp"
 
 int main() {
 
-  List *Fila1 = new List();
-  List *Fila2 = new List();
-  Node *ptrFunc;
-  Node *address1;
-  Node *address2;
+  AdvertisingList *Fila1 = new AdvertisingList();
+  AdvertisingList *Fila2 = new AdvertisingList();
+  AdvertisingNode *ptrFunc;
+  AdvertisingNode *address1;
+  AdvertisingNode *address2;
   bool sai = false;
   int opcao;
   string advertising;
@@ -36,7 +37,7 @@ int main() {
       cout << endl << "Propaganda: ";
       cin.ignore();
       getline(std::cin, advertising);
-      ptrFunc = new Node();
+      ptrFunc = new AdvertisingNode();
       ptrFunc->setAdvertising(advertising);
       Fila2->insertionNode(ptrFunc);
       break;
@@ -71,7 +72,7 @@ int main() {
       address1 = Fila1->getLastnodeaddress();
       address2 = Fila2->getFirstnodeaddress();
       count = Fila2->getNumElem();
-      Fila1->updateNodeaddress(address1, address2);
+      Fila1->updateNodeAddress(address1, address2);
       Fila1->organizePosition();
       Fila2->updateHead();
       break;

@@ -1,26 +1,26 @@
 %2F%2F Diagrama de Classes,
 
-[FSMList|Node *head;Node *ea|public:;List();~List();entradaM025();entradaM050();entradaM100();entradaDEV();entradaMEET();entradaETIRPS();getEstadoAtual()]
+[FSMList|Node *head;Node *ea|public:;FSMList();~FSMList();entradaM025();entradaM050();entradaM100();entradaDEV();entradaMEET();entradaETIRPS();getEstadoAtual()]
 
 [FSMNode|int state;Node *next|public:;Node();getNext();setNext();getState()]
 
-[TerminalInterface|]
+[TerminalInterface]
 
 [EmbeddedInterface]
 
 [OutputInterface]
 
-[Queue{bg:tomato}]
+[AdvertisingList|int numElem;AdvertisingNode *head|public:;AdvertisingList();~AdvertisingList();int getNumElem();void insertionNode();void switchLasttofirst();AdvertisingNode* getLastnodeaddress();AdvertisingNode* getFirstnodeaddress();int removeLastnode();void listAll();void organizePosition();void updateHead();void updateNodeaddress();]
 
-[Advertising|string adText|public:;setAdText()]
+[AdvertisingNode|int position;string advertising;*AdvertisingNode next|public:;AdvertisingNode();getAdvertising();getPosition();AdvertisingNode* getNext();setAdvertising ();setNext();setPosition()]
 
 [Drink|string name;int price;|public:;Drink();getPrice();getName();setPrice();setName();]
 
 [Stock|int meetCount;int ertipsCount;|public:;addMeet();removeMeet();getMeetCount();addEtirps();removeEtirps();getMeetEtirps()]
 
 [Drink]<A-[Stock]
-[Advertising]<A-[Queue]
+[AdvertisingNode]<A-[AdvertisingList]
 [OutputInterface]<H-[EmbeddedInterface{bg:tomato}]
-[OutputInterface]<H-[TerminalInterface]
+[OutputInterface]<H-[TerminalInterface{bg:tomato}]
 
 [FSMNode]<A-[FSMList]

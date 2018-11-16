@@ -1,18 +1,18 @@
-/*
-   File List.cpp
-   Advertising
+//UFSC 2018.2
+//C++ para Sistemas Embarcados
+//Lucas Martins e Rafael Valente
+//Projeto Final - Vending Machine
+//AdvertisingList.cpp
 
- */
+#include "AdvertisingList.h"
 
-#include "List.h"
-
-List::List() {
+AdvertisingList::AdvertisingList() {
   head = 0;
   numElem = 0;
 }
 
-List::~List() {
-  Node *cursor = head;
+AdvertisingList::~AdvertisingList() {
+  AdvertisingNode *cursor = head;
   while (head) {
     cursor = cursor->getNext();
     delete head;
@@ -21,14 +21,14 @@ List::~List() {
   head = 0; // Officially empty
 }
 
-int List::getNumElem() { return numElem; }
+int AdvertisingList::getNumElem() { return numElem; }
 
-void List::insertionNode(Node *func) { // int mat, string nom, float sal, int
+void AdvertisingList::insertionNode(AdvertisingNode *func) { // int mat, string nom, float sal, int
                                        // horas, float dec, char sta, int quad)
                                        // {
   numElem = 1;
-  Node *p = head;
-  Node *q = head;
+  AdvertisingNode *p = head;
+  AdvertisingNode *q = head;
   if (head == 0) {
     head = func;
     func->setPosition(numElem);
@@ -45,12 +45,12 @@ void List::insertionNode(Node *func) { // int mat, string nom, float sal, int
     // p->setNext(func)
   }
 }
-int List::removeLastnode(int count) {
+int AdvertisingList::removeLastnode(int count) {
   numElem += count;
   int result;
-  Node *p = head;
-  Node *q = head;
-  Node *t = head;
+  AdvertisingNode *p = head;
+  AdvertisingNode *q = head;
+  AdvertisingNode *t = head;
 
   if (head == 0)
     result = 0;
@@ -82,8 +82,8 @@ int List::removeLastnode(int count) {
   }
 }
 
-void List::listAll() {
-  Node *aux = head;
+void AdvertisingList::listAll() {
+  AdvertisingNode *aux = head;
 
   cout << "Lista de Propagandas" << endl << "------------------" << endl;
   while (aux != 0) {
@@ -94,11 +94,11 @@ void List::listAll() {
   }
 }
 
-void List::switchLasttofirst() {
+void AdvertisingList::switchLasttofirst() {
   int count = 1;
-  Node *p = head;
-  Node *q = head;
-  Node *t = head;
+  AdvertisingNode *p = head;
+  AdvertisingNode *q = head;
+  AdvertisingNode *t = head;
 
   if (head == 0) {
     cout << "Não há propagandas na lista" << endl;
@@ -123,10 +123,10 @@ void List::switchLasttofirst() {
     head = p;
   }
 }
-Node *List::getLastnodeaddress() {
-  Node *address;
-  Node *p = head;
-  Node *q = head;
+AdvertisingNode *AdvertisingList::getLastnodeaddress() {
+  AdvertisingNode *address;
+  AdvertisingNode *p = head;
+  AdvertisingNode *q = head;
 
   if (head == 0) {
     address = head;
@@ -143,18 +143,18 @@ Node *List::getLastnodeaddress() {
   return address;
 }
 
-Node *List::getFirstnodeaddress() {
-  Node *address;
+AdvertisingNode *AdvertisingList::getFirstnodeaddress() {
+  AdvertisingNode *address;
   address = head;
   return address;
 }
 
-void List::updateHead() { head = 0; }
+void AdvertisingList::updateHead() { head = 0; }
 
-void List::organizePosition() {
+void AdvertisingList::organizePosition() {
   int count = 1;
-  Node *p = head;
-  Node *q = head;
+  AdvertisingNode *p = head;
+  AdvertisingNode *q = head;
   if (head == 0) {
     cout << "Fila 1 Vazia" << endl;
   } else {
@@ -166,7 +166,7 @@ void List::organizePosition() {
     }
   }
 }
-void List::updateNodeaddress(Node *address1, Node *address2) {
+void AdvertisingList::updateNodeAddress(AdvertisingNode *address1, AdvertisingNode *address2) {
   if (address1 == 0) {
     head = address2;
   } else {
