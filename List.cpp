@@ -45,7 +45,8 @@ void List::insertionNode(Node *func) { // int mat, string nom, float sal, int
     // p->setNext(func)
   }
 }
-int List::removeLastnode() {
+int List::removeLastnode(int count) {
+  numElem += count;
   int result;
   Node *p = head;
   Node *q = head;
@@ -122,15 +123,53 @@ void List::switchLasttofirst() {
     head = p;
   }
 }
+Node *List::getLastnodeaddress() {
+  Node *address;
+  Node *p = head;
+  Node *q = head;
 
-/*BothList::BothList() {
-  List Fila1;
-  list1 = &Fila1;
-  List Fila2;
-  list2 = &Fila2;
+  if (head == 0) {
+    address = head;
+  } else if (head->getNext() == 0) {
+    address = head;
+  } else {
+    q = p->getNext();
+    while (q != 0) {
+      p = q;
+      q = p->getNext();
+    }
+  }
+  address = p;
+  return address;
 }
 
-BothList::~BothList() {}
+Node *List::getFirstnodeaddress() {
+  Node *address;
+  address = head;
+  return address;
+}
 
-void BothList::mergeQeue() {}
-*/
+void List::updateHead() { head = 0; }
+
+void List::organizePosition() {
+  int count = 1;
+  Node *p = head;
+  Node *q = head;
+  if (head == 0) {
+    cout << "Fila 1 Vazia" << endl;
+  } else {
+    while (q != 0) {
+      p = q;
+      p->setPosition(count);
+      q = p->getNext();
+      count += 1;
+    }
+  }
+}
+void List::updateNodeaddress(Node *address1, Node *address2) {
+  if (address1 == 0) {
+    head = address2;
+  } else {
+    address1->setNext(address2);
+  }
+}

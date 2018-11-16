@@ -17,19 +17,11 @@ public:
   int getNumElem();
   void insertionNode(Node *func);
   void switchLasttofirst();
-  int removeLastnode();
+  Node* getLastnodeaddress();
+  Node* getFirstnodeaddress();
+  int removeLastnode(int);
   void listAll();
-
+  void organizePosition();
+  void updateHead();
+  void updateNodeaddress(Node *, Node*);
 };
-
-/*class BothList:public List {
-
-  List *list1;
-  List *list2;
-
-public:
-    BothList();
-    ~BothList();
-    void mergeQeue();
- };
-*/
