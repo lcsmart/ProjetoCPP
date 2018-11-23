@@ -6,7 +6,8 @@
 
 #include "FSMList.h"
 
-List::List() {
+List::List(TerminalInterface *NewOutInterface) {
+  OutInt = NewOutInterface;
   Node *n;
   Node *t;
   int count = 0;

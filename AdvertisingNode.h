@@ -4,8 +4,8 @@
 //Projeto Final - Vending Machine
 //AdvertisingNode.h
 
- #include <iostream>
- #include <string>
+#include <iostream>
+#include <string>
 
  using namespace std;
 

@@ -101,9 +101,9 @@ void AdvertisingList::switchLasttofirst() {
   AdvertisingNode *t = head;
 
   if (head == 0) {
-    cout << "Não há propagandas na lista" << endl;
+    //cout << "Não há propagandas na lista" << endl;
   } else if (head->getNext() == 0) {
-    cout << "Só há uma propaganda na lista" << endl;
+    //cout << "Só há uma propaganda na lista" << endl;
   } else {
     q = p->getNext();
     p = t->getNext();
@@ -117,10 +117,17 @@ void AdvertisingList::switchLasttofirst() {
       }
     }
 
+    p->setNext(head);
+    head = head->getNext();
+    t= p->getNext();
     t->setNext(q);
+    organizePosition();
+
+
+    /*t->setNext(q);
     p->setPosition(1);
     p->setNext(head);
-    head = p;
+    head = p;*/
   }
 }
 AdvertisingNode *AdvertisingList::getLastnodeaddress() {
@@ -172,4 +179,8 @@ void AdvertisingList::updateNodeAddress(AdvertisingNode *address1, AdvertisingNo
   } else {
     address1->setNext(address2);
   }
+}
+
+string AdvertisingList::getCurrentNode(){
+  return head->getAdvertising();
 }

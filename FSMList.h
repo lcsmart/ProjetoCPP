@@ -7,12 +7,12 @@
 #include "FSMNode.cpp"
 
 class List {
-
+  TerminalInterface *OutInt;
   Node *head;
   Node *ea;
 
 public:
-  List();
+  List(TerminalInterface *);
   ~List();
   int entradaM025();
   int entradaM050();

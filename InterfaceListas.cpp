@@ -4,12 +4,20 @@
 //Projeto Final - Vending Machine
 //InterfaceListas.cpp
 
-#include "AdvertisingList.cpp"
+#include <iostream>
+#include <string>
+#include <stdlib.h>
+#include <time.h>
+
+#include "OutputInterface.cpp"
+#include "TerminalInterface.cpp"
+#include "AdvertisingDisplay.cpp"
 
 int main() {
+  TerminalInterface *OutInterface = new TerminalInterface();
 
-  AdvertisingList *Fila1 = new AdvertisingList();
-  AdvertisingList *Fila2 = new AdvertisingList();
+  AdvertisingDisplay *Fila1 = new AdvertisingDisplay(OutInterface);
+  AdvertisingDisplay *Fila2 = new AdvertisingDisplay(OutInterface);
   AdvertisingNode *ptrFunc;
   AdvertisingNode *address1;
   AdvertisingNode *address2;
@@ -27,7 +35,9 @@ int main() {
          << "5 - Trocar posição do Ultimo com a do Primeiro da Fila 1" << endl
          << "6 - Exibir a lista" << endl
          << "7 - Fim do programa" << endl
-         << "Opcao? ";
+         << "8 - Exibe as propagandas em sequência até o fim do programa" << endl
+         << "Opcao? " << endl;
+
 
     cin >> opcao;
 
@@ -92,8 +102,15 @@ int main() {
       sai = true;
       break;
 
+    case 8:
+      while(1){
+        Fila1->showAd();
+      }
+      break;
+
     default:
-      cout << endl << "Erro: opcao invalida!" << endl;
+      sai = true;
+      break;
     }
   }
 

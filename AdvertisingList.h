@@ -7,7 +7,6 @@
 #include "AdvertisingNode.cpp"
 
 class AdvertisingList {
-
   int numElem;
   AdvertisingNode *head;
 
@@ -24,4 +23,5 @@ public:
   void organizePosition();
   void updateHead();
   void updateNodeAddress(AdvertisingNode *, AdvertisingNode*);
+  string getCurrentNode();
 };
