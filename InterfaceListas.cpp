@@ -25,6 +25,7 @@ int main() {
   int opcao;
   string advertising;
   int count = 0;
+
   while (!sai) {
     // menu de opcoes
     cout << endl << "Propagandas" << endl << "==================" << endl;
