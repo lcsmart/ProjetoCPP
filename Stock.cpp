@@ -7,23 +7,27 @@
 #include "Stock.h"
 
 Stock::Stock() {
-  Ertips = new Drink("Ertips", 150);
+  Etirps = new Drink("Etirps", 150);
   Meet = new Drink("Meet", 150);
+  meetCount = 0;
+  etirpsCount = 0;
 }
 
 Stock::~Stock() {
-  delete Ertips;
+  delete Etirps;
   delete Meet;
 }
 
 void Stock::addMeet(int newMeets) { meetCount = meetCount + newMeets; }
 
-void Stock::removeMeet() { meetCount--; }
+void Stock::removeMeet() { if(meetCount > 0)meetCount--;
+else cout << "Nao ha meets em estoque" << endl; }
 
 int Stock::getMeetCount() { return meetCount; }
 
-void Stock::addEtirps(int newEtirps) { ertipsCount = ertipsCount + newEtirps; }
+void Stock::addEtirps(int newEtirps) { etirpsCount = etirpsCount + newEtirps; }
 
-void Stock::removeEtirps() { ertipsCount--; }
+void Stock::removeEtirps() { if(etirpsCount>0)etirpsCount--;
+else cout << "Nao ha etirps em estoque" << endl;}
 
-int Stock::getErtipsCount() { return ertipsCount; }
+int Stock::getEtirpsCount() { return etirpsCount; }

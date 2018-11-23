@@ -4,7 +4,7 @@
 //Projeto Final - Vending Machine
 //Drink.h
 
-class Drink: public AdvertisingList{
+class Drink{
   string name;
   int price;
 public:

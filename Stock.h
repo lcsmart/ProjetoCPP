@@ -5,10 +5,10 @@
 // Stock.h
 
 class Stock {
-  Drink *Ertips;
+  Drink *Etirps;
   Drink *Meet;
   int meetCount;
-  int ertipsCount;
+  int etirpsCount;
 
 public:
   Stock();
@@ -19,5 +19,5 @@ public:
 
   void addEtirps(int);
   void removeEtirps();
-  int getErtipsCount();
+  int getEtirpsCount();
 };

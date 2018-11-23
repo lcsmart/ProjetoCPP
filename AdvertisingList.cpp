@@ -159,6 +159,7 @@ AdvertisingNode *AdvertisingList::getFirstnodeaddress() {
 void AdvertisingList::updateHead() { head = 0; }
 
 void AdvertisingList::organizePosition() {
+  numElem = 0;
   int count = 1;
   AdvertisingNode *p = head;
   AdvertisingNode *q = head;
@@ -170,6 +171,7 @@ void AdvertisingList::organizePosition() {
       p->setPosition(count);
       q = p->getNext();
       count += 1;
+      numElem += 1;
     }
   }
 }

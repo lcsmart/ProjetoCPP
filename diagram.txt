@@ -4,19 +4,23 @@
 
 [FSMNode|int state;Node *next|public:;Node();getNext();setNext();getState()]
 
-[TerminalInterface]
+[TerminalInterface|public:;void displayMessage()]
 
 [EmbeddedInterface]
 
-[OutputInterface]
+[AdvertisingDisplay|int countAdTime;int counter;time_t timer;time_t lastTimer;|public:;void showAd()]
+
+[OutputInterface|virtual void displayMessage() = 0]
 
 [AdvertisingList|int numElem;AdvertisingNode *head|public:;AdvertisingList();~AdvertisingList();int getNumElem();void insertionNode();void switchLasttofirst();AdvertisingNode* getLastnodeaddress();AdvertisingNode* getFirstnodeaddress();int removeLastnode();void listAll();void organizePosition();void updateHead();void updateNodeaddress();]
 
 [AdvertisingNode|int position;string advertising;*AdvertisingNode next|public:;AdvertisingNode();getAdvertising();getPosition();AdvertisingNode* getNext();setAdvertising ();setNext();setPosition()]
 
+[AdvertisingList]<H-[AdvertisingDisplay]
+
 [Drink|string name;int price;|public:;Drink();getPrice();getName();setPrice();setName();]
 
-[Stock|int meetCount;int ertipsCount;|public:;addMeet();removeMeet();getMeetCount();addEtirps();removeEtirps();getMeetEtirps()]
+[Stock|int meetCount;int ertipsCount;|public:;addMeet();removeMeet();getMeetCount();addEtirps();removeEtirps();getEtirpsCount()]
 
 [Drink]<A-[Stock]
 [AdvertisingNode]<A-[AdvertisingList]

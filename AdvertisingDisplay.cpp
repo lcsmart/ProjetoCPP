@@ -25,6 +25,7 @@ AdvertisingDisplay::AdvertisingDisplay(TerminalInterface *NewOutInt) {
 AdvertisingDisplay::~AdvertisingDisplay() {}
 
 void AdvertisingDisplay::showAd() {
+  if(getNumElem()>0){
   time(&timer);
   if (difftime(timer, lastTimer) > 1) {
     countAdTime--;
@@ -42,4 +43,16 @@ void AdvertisingDisplay::showAd() {
       time(&lastTimer);
     }
   }
+}
+else {
+  time(&timer);
+  if (difftime(timer, lastTimer) > 1) {
+    countAdTime--;
+    if (countAdTime == 0) {
+          countAdTime = 1;
+          time(&lastTimer);
+          OutInt->displayMessage(asctime(localtime(&timer)));
+    }
+  }
+}
 }
