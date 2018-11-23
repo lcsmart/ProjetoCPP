@@ -3,34 +3,27 @@
 // Lucas Martins e Rafael Valente
 // Projeto Final - Vending Machine
 // Stock.cpp
-
-#include "Stock.h"
 #include "Drink.cpp"
+#include "Stock.h"
 
-Stock::Stock() {}
-
-Stock::~Stock() {}
-
-void addMeet(int newMeets){
-  meetCount = meetCount+newMeets;
+Stock::Stock() {
+  Ertips = new Drink("Ertips", 150);
+  Meet = new Drink("Meet", 150);
 }
 
-void removeMeet(){
-  meetCount--;
+Stock::~Stock() {
+  delete Ertips;
+  delete Meet;
 }
 
-int getMeetCount(){
-  return meetCount;
-}
+void Stock::addMeet(int newMeets) { meetCount = meetCount + newMeets; }
 
-void addEtirps(int newEtirps){
-  EtirpsCount = EtirpsCount+newEtirps;
-}
+void Stock::removeMeet() { meetCount--; }
 
-void removeEtirps(){
-  EtirpsCount--;
-}
+int Stock::getMeetCount() { return meetCount; }
 
-int getEtirpsCount(){
-  return EtirpsCount;
-}
+void Stock::addEtirps(int newEtirps) { ertipsCount = ertipsCount + newEtirps; }
+
+void Stock::removeEtirps() { ertipsCount--; }
+
+int Stock::getErtipsCount() { return ertipsCount; }

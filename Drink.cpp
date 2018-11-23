@@ -6,25 +6,17 @@
 
 #include "Drink.h"
 
-Stock::Drink(string newName, int newPrice) {
+Drink::Drink(string newName, int newPrice) {
   price = newPrice;
   name = newName;
 }
 
-Stock::~Drink() {}
+Drink::~Drink() {}
 
-int Stock::getPrice(){
-  return price;
-}
+int Drink::getPrice() { return price; }
 
-string Stock::getName(){
-  return string;
-}
+string Drink::getName() { return name; }
 
-void Stock::setPrice(int newPrice){
-  price = newPrice;
-}
+void Drink::setPrice(int newPrice) { price = newPrice; }
 
-void Stock::setName(string newName){
-  name = newName;
-}
+void Drink::setName(string newName) { name = newName; }

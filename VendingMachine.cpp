@@ -12,14 +12,17 @@
 
 #include "OutputInterface.cpp"
 #include "TerminalInterface.cpp"
-#include "stock.cpp"
+
 #include "AdvertisingDisplay.cpp"
+
+#include "Stock.cpp"
+
 #include "FSMList.cpp"
 
 #define PC
 
-main(){
-  #ifdef PC
+main() {
+#ifdef PC
   TerminalInterface *OutInterface = new TerminalInterface();
-  #endif
+#endif
 }
