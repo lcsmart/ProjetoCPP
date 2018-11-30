@@ -5,23 +5,27 @@
 //AdvertisingList.h
 
 #include "AdvertisingNode.cpp"
-
+//classe das listas que ligam os nodos que representam anúncios
+template<typename T>
 class AdvertisingList {
   int numElem;
-  AdvertisingNode *head;
+  AdvertisingNode<T> *head;
 
+//funções da lista
 public:
   AdvertisingList();
   ~AdvertisingList();
   int getNumElem();
-  void insertionNode(AdvertisingNode *func);
+  void insertionNode(AdvertisingNode<T> *func);
   void switchLasttofirst();
-  AdvertisingNode* getLastnodeaddress();
-  AdvertisingNode* getFirstnodeaddress();
-  int removeLastnode(int);
+  AdvertisingNode<T> *getLastnodeaddress();
+  AdvertisingNode<T> *getFirstnodeaddress();
+  void removeLastnode();
+  void removeFirstNode();
   void listAll();
   void organizePosition();
   void updateHead();
-  void updateNodeAddress(AdvertisingNode *, AdvertisingNode*);
+  void updateNodeAddress(AdvertisingNode<T> *, AdvertisingNode<T> *);
   string getCurrentNode();
+  string getLastNode();
 };

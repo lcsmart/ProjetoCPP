@@ -5,14 +5,17 @@
 //AdvertisingList.cpp
 
 #include "AdvertisingList.h"
-
-AdvertisingList::AdvertisingList() {
+// construtor inicizalia a lista sem nodos com o ponteiro head apontando para 0.
+template<typename T>
+AdvertisingList<T>::AdvertisingList() {
   head = 0;
-  numElem = 0;
+  numElem = 0; // número de nodos na fila.
 }
 
-AdvertisingList::~AdvertisingList() {
-  AdvertisingNode *cursor = head;
+//destrutor, deleta todos os nodos da fila e ao final faz o ponteiro head apontar para 0.
+template<typename T>
+AdvertisingList<T>::~AdvertisingList() {
+  AdvertisingNode<T> *cursor = head;
   while (head) {
     cursor = cursor->getNext();
     delete head;
@@ -21,14 +24,16 @@ AdvertisingList::~AdvertisingList() {
   head = 0; // Officially empty
 }
 
-int AdvertisingList::getNumElem() { return numElem; }
+// retorna o número de nodos na fila.
+template<typename T>
+int AdvertisingList<T>::getNumElem() { return numElem; }
 
-void AdvertisingList::insertionNode(AdvertisingNode *func) { // int mat, string nom, float sal, int
-                                       // horas, float dec, char sta, int quad)
-                                       // {
+// Adiciona um nodo a fila.
+template<typename T>
+void AdvertisingList<T>::insertionNode(AdvertisingNode<T> *func) {
   numElem = 1;
-  AdvertisingNode *p = head;
-  AdvertisingNode *q = head;
+  AdvertisingNode<T> *p = head;
+  AdvertisingNode<T> *q = head;
   if (head == 0) {
     head = func;
     func->setPosition(numElem);
@@ -45,17 +50,18 @@ void AdvertisingList::insertionNode(AdvertisingNode *func) { // int mat, string 
     // p->setNext(func)
   }
 }
-int AdvertisingList::removeLastnode(int count) {
-  numElem += count;
-  int result;
-  AdvertisingNode *p = head;
-  AdvertisingNode *q = head;
-  AdvertisingNode *t = head;
 
-  if (head == 0)
-    result = 0;
-  // Não existem Nodos na lista
-  else {
+//remove o último nodo da fila
+template<typename T>
+ void AdvertisingList<T>::removeLastnode() {
+  AdvertisingNode<T> *p = head;
+  AdvertisingNode<T> *q = head;
+  AdvertisingNode<T> *t = head;
+
+  if (head == 0){
+    numElem = 0;
+    // Não existem Nodos na lista
+  }else {
     q = p->getNext();
     p = t->getNext();
     while (q != 0) {
@@ -67,23 +73,39 @@ int AdvertisingList::removeLastnode(int count) {
     }
     if (t == head && p == 0) {
       head = 0;
-      result = t->getPosition();
       delete t;
-      numElem = numElem - 1;
+      organizePosition();
       // Há somente 1 Nodo na Lista
     } else {
       t->setNext(q);
-      result = p->getPosition();
       delete p;
-      numElem = numElem - 1;
+      organizePosition();
       // Ultimo Nodo deletado e o Próximo aponta para 0
     }
-    return result;
   }
 }
 
-void AdvertisingList::listAll() {
-  AdvertisingNode *aux = head;
+//remove o primeiro nodo da fila
+template<typename T>
+void AdvertisingList<T>::removeFirstNode(){
+    AdvertisingNode<T> *p = head;
+    if (head == 0){
+     // não há nodos na lista
+    } else if (head->getNext() == 0){ // há somente um nodo na lista
+      delete head;
+      head = 0;
+      numElem = numElem - 1;
+    } else {
+      head = head->getNext();
+      delete p;
+      organizePosition();
+    }
+}
+
+//lista todas as propagandas da fila.
+template<typename T>
+void AdvertisingList<T>::listAll() {
+  AdvertisingNode<T> *aux = head;
 
   cout << "Lista de Propagandas" << endl << "------------------" << endl;
   while (aux != 0) {
@@ -94,11 +116,13 @@ void AdvertisingList::listAll() {
   }
 }
 
-void AdvertisingList::switchLasttofirst() {
+// pega o primeiro nodo da fila e o coloca em ultimo na fila.
+template<typename T>
+void AdvertisingList<T>::switchLasttofirst() {
   int count = 1;
-  AdvertisingNode *p = head;
-  AdvertisingNode *q = head;
-  AdvertisingNode *t = head;
+  AdvertisingNode<T> *p = head;
+  AdvertisingNode<T> *q = head;
+  AdvertisingNode<T> *t = head;
 
   if (head == 0) {
     //cout << "Não há propagandas na lista" << endl;
@@ -124,16 +148,14 @@ void AdvertisingList::switchLasttofirst() {
     organizePosition();
 
 
-    /*t->setNext(q);
-    p->setPosition(1);
-    p->setNext(head);
-    head = p;*/
   }
 }
-AdvertisingNode *AdvertisingList::getLastnodeaddress() {
-  AdvertisingNode *address;
-  AdvertisingNode *p = head;
-  AdvertisingNode *q = head;
+//Pega o endereço do ultimo nodo da fila (retorna um ponteiro)
+template<typename T>
+AdvertisingNode<T> *AdvertisingList<T>::getLastnodeaddress() {
+  AdvertisingNode<T> *address;
+  AdvertisingNode<T> *p = head;
+  AdvertisingNode<T> *q = head;
 
   if (head == 0) {
     address = head;
@@ -150,19 +172,25 @@ AdvertisingNode *AdvertisingList::getLastnodeaddress() {
   return address;
 }
 
-AdvertisingNode *AdvertisingList::getFirstnodeaddress() {
-  AdvertisingNode *address;
+//Pega o endereço do primeiro nodo da fila (retorna um ponteiro)
+template<typename T>
+AdvertisingNode<T> *AdvertisingList<T>::getFirstnodeaddress() {
+  AdvertisingNode<T> *address;
   address = head;
   return address;
 }
 
-void AdvertisingList::updateHead() { head = 0; }
+//Atualiza o ponteiro head da fila (faz ele apontar para 0)
+template<typename T>
+void AdvertisingList<T>::updateHead() { head = 0; }
 
-void AdvertisingList::organizePosition() {
+//Organiza o número inteiro que corresponde a posição do Nodo na fila.
+template<typename T>
+void AdvertisingList<T>::organizePosition() {
   numElem = 0;
   int count = 1;
-  AdvertisingNode *p = head;
-  AdvertisingNode *q = head;
+  AdvertisingNode<T> *p = head;
+  AdvertisingNode<T> *q = head;
   if (head == 0) {
     cout << "Fila 1 Vazia" << endl;
   } else {
@@ -175,14 +203,24 @@ void AdvertisingList::organizePosition() {
     }
   }
 }
-void AdvertisingList::updateNodeAddress(AdvertisingNode *address1, AdvertisingNode *address2) {
+//função utilizada para juntar as filas.
+template<typename T>
+void AdvertisingList<T>::updateNodeAddress(AdvertisingNode<T> *address1, AdvertisingNode<T> *address2) {
   if (address1 == 0) {
     head = address2;
   } else {
     address1->setNext(address2);
   }
 }
-
-string AdvertisingList::getCurrentNode(){
+//retorna o anuncio do nodo atual.
+template<typename T>
+string AdvertisingList<T>::getCurrentNode(){
   return head->getAdvertising();
+}
+
+//retorna o anuncio do último nodo da fila.
+template<typename T>
+string AdvertisingList<T>::getLastNode(){
+  AdvertisingNode<T> *p = getLastnodeaddress();
+  return p->getAdvertising();
 }

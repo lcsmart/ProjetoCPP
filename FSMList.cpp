@@ -1,11 +1,13 @@
-//UFSC 2018.2
-//C++ para Sistemas Embarcados
-//Lucas Martins e Rafael Valente
-//Projeto Final - Vending Machine
-//FSMList.cpp
+// UFSC 2018.2
+// C++ para Sistemas Embarcados
+// Lucas Martins e Rafael Valente
+// Projeto Final - Vending Machine
+// FSMList.cpp
 
 #include "FSMList.h"
+#ifdef TERMINALLINUX
 
+//construtor que inicializa a máquina de estados
 List::List(TerminalInterface *NewOutInterface) {
   OutInt = NewOutInterface;
   Node *n;
@@ -21,7 +23,26 @@ List::List(TerminalInterface *NewOutInterface) {
     t = n;
   }
 }
+#endif
+#ifdef EMBEDDEDTERMINAL
+List::List(EmbeddedInterface *NewOutInterface) {
+  OutInt = NewOutInterface;
+  Node *n;
+  Node *t;
+  int count = 0;
+  n = new Node(count);
+  head = n;
+  t = n;
+  ea = head;
+  for (count = 25; count < 175; count += 25) {
+    n = new Node(count);
+    t->setNext(n);
+    t = n;
+  }
+}
+#endif
 
+//destrutor da máquina de estados
 List::~List() {
   Node *cursor = head;
   while (head) {
@@ -32,6 +53,7 @@ List::~List() {
   head = 0; // Officially empty
 }
 
+//Funções que correspondem as entradas
 int List::entradaM025() {
   int change;
   int entrada = 25;
@@ -135,10 +157,13 @@ void List::entradaMEET() {
   case 75:
   case 100:
   case 125:
-    cout << "Dinheiro insuficiente" << endl;
+    OutInt->displayMessage("Saldo Insuficiente");
+    usleep(2000000);
     break;
   default:
-    cout << "Obrigado pela compra do refrigerante MEET" << endl;
+    OutInt->displayMessage("Obrigado pela compra!");
+    usleep(2000000);
+    removeMeet();
     ea = head;
     break;
   }
@@ -154,15 +179,19 @@ void List::entradaETIRPS() {
   case 75:
   case 100:
   case 125:
-    cout << "Dinheiro insuficiente" << endl;
+    OutInt->displayMessage("Saldo Insuficiente");
+    usleep(2000000);
     break;
   default:
-    cout << "Obrigado pela compra do refrigerante ETIRPS" << endl;
+    OutInt->displayMessage("Obrigado pela compra!");
+    usleep(2000000);
+    removeEtirps();
     ea = head;
     break;
   }
 }
 
+//retorna estado atual
 int List::getEstadoAtual() {
   int state;
   state = ea->getState();

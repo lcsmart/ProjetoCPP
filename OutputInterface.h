@@ -4,6 +4,7 @@
 //Projeto Final - Vending Machine
 //OutputInterface.h
 
+//Classe abstrata da interface
 class OutputInterface {
 public:
   OutputInterface();

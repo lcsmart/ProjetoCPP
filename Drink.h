@@ -4,6 +4,7 @@
 //Projeto Final - Vending Machine
 //Drink.h
 
+//classe que representa as bebidas
 class Drink{
   string name;
   int price;

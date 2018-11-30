@@ -4,17 +4,25 @@
 //Projeto Final - Vending Machine
 //AdvertisingDisplay.h
 
-class AdvertisingDisplay: public AdvertisingList{
-
+//Classe que controla a exibicao de propagandas no display
+template<typename T>
+class AdvertisingDisplay: public AdvertisingList<T>{
+  #ifdef TERMINALLINUX
   TerminalInterface *OutInt;
-  //EmbeddedInterface *OutInt;
-
+  #endif
+  #ifdef EMBEDDEDTERMINAL
+  EmbeddedInterface *OutInt;
+  #endif
   int countAdTime;
   int counter;
   time_t timer, lastTimer;
 public:
+  #ifdef TERMINALLINUX
   AdvertisingDisplay(TerminalInterface*);
-  //AdvertisingDisplay(EmbeddedInterface*);
+  #endif
+  #ifdef EMBEDDEDTERMINAL
+  AdvertisingDisplay(EmbeddedInterface*);
+  #endif
   ~AdvertisingDisplay();
   void showAd();
 };

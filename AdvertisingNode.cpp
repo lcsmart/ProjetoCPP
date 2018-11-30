@@ -6,24 +6,33 @@
 
 #include "AdvertisingNode.h"
 
-// Constructor - initializes the node
+// Construtor inicializa o Nodo
 //
-AdvertisingNode::AdvertisingNode() { next = 0; }
+template<typename T>
+AdvertisingNode<T>::AdvertisingNode() { next = 0; }
 
-string AdvertisingNode::getAdvertising() { return advertising; }
+// Retorna a propaganda
+template<typename T>
+T AdvertisingNode<T>::getAdvertising() { return advertising; }
 
-int AdvertisingNode::getPosition() { return position; }
+// Retorna a posição do Nodo na Fila.
+template<typename T>
+int AdvertisingNode<T>::getPosition() { return position; }
 
-// getNext returns a pointer to the next node in the linked list
-//
-AdvertisingNode *AdvertisingNode::getNext() { return next; }
+// getNext retorna o ponteiro que aponta para o próximo nodo da Fila.
+template<typename T>
+AdvertisingNode<T> *AdvertisingNode<T>::getNext() { return next; }
 
-void AdvertisingNode::setAdvertising(string novoAdvertising) {
+// setAdvertising muda a propaganda para uma nova propaganda.
+template<typename T>
+void AdvertisingNode<T>::setAdvertising(string novoAdvertising) {
   advertising = novoAdvertising;
 }
 
-// setNext stores the pointer to the next node in the list in the "next" field
-//
-void AdvertisingNode::setNext(AdvertisingNode *nxt) { next = nxt; }
+// setNext muda o ponteiro que aponta/apontava para o próximo nodo da Fila
+template<typename T>
+void AdvertisingNode<T>::setNext(AdvertisingNode *nxt) { next = nxt; }
 
-void AdvertisingNode::setPosition(int pos) { position = pos; }
+// atualiza a posição do nodo na fila
+template<typename T>
+void AdvertisingNode<T>::setPosition(int pos) { position = pos; }

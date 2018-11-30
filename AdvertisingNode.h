@@ -7,18 +7,19 @@
 #include <iostream>
 #include <string>
 
- using namespace std;
-
+using namespace std;
+// Classe dos Nodos que representam anuncios
+template<typename T>
 class AdvertisingNode {
         int position;
-        string advertising;
-        AdvertisingNode* next;
+        T advertising;
+        AdvertisingNode<T> *next;
 public:
         AdvertisingNode();
-        string getAdvertising();
+        T getAdvertising();
         int getPosition();
-        AdvertisingNode* getNext();
+        AdvertisingNode<T> *getNext();
         void setAdvertising (string);
-        void setNext(AdvertisingNode* nxt);
+        void setNext(AdvertisingNode<T> *nxt);
         void setPosition(int);
 };

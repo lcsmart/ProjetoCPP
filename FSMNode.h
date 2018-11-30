@@ -6,7 +6,7 @@
 
 #include <iostream>
 #include <string>
-
+//nodos que representam os estados da FSM
 using namespace std;
 
 class Node {

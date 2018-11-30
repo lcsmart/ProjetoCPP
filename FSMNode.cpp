@@ -5,7 +5,7 @@
 //FSMNode.cpp
 
 #include "FSMNode.h"
-
+//construtor inicializa os nodos
 Node::Node(int sta) {
   state = sta;
   next = 0;

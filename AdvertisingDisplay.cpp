@@ -7,52 +7,61 @@
 #include "AdvertisingList.cpp"
 #include "AdvertisingDisplay.h"
 
-
-AdvertisingDisplay::AdvertisingDisplay(TerminalInterface *NewOutInt) {
+//Construtor para Interface Terminal
+#ifdef TERMINALLINUX
+template<typename T>
+AdvertisingDisplay<T>::AdvertisingDisplay(TerminalInterface *NewOutInt) {
   OutInt = NewOutInt;
   time(&lastTimer);
   counter = 0;
   countAdTime = 1;
 }
-
-/*AdvertisingDisplay::AdvertisingDisplay(EmbeddedInterface *NewOutInt) {
+#endif
+//Construtor para Interface Embarcada
+#ifdef EMBEDDEDTERMINAL
+template<typename T>
+AdvertisingDisplay<T>::AdvertisingDisplay(EmbeddedInterface *NewOutInt) {
   OutInt = NewOutInt;
   time(&lastTimer);
   counter = 0;
   countAdTime = 1;
-}*/
+}
+  #endif
 
-AdvertisingDisplay::~AdvertisingDisplay() {}
+template<typename T>
+AdvertisingDisplay<T>::~AdvertisingDisplay() {}
 
-void AdvertisingDisplay::showAd() {
-  if(getNumElem()>0){
+//Funcao que exibe os anuncios na interface
+template<typename T>
+void AdvertisingDisplay<T>::showAd() {
+  if(AdvertisingList<T>::getNumElem()>0){
   time(&timer);
-  if (difftime(timer, lastTimer) > 1) {
+  if (difftime(timer, lastTimer) >= 1) {
     countAdTime--;
     if (((counter == 3 && random() % 4 == 0) ||
         (counter == 4 && random() % 3 == 0) || (counter == 5 && random() % 2 ==0) || (counter ==6)) && countAdTime == 0) {
           counter = 0;
-          countAdTime = 1;
-          time(&lastTimer);
+          countAdTime = TEMPOTEMPO;
           OutInt->displayMessage(asctime(localtime(&timer)));
     } else if (countAdTime == 0){
       counter++;
-      OutInt->displayMessage(getCurrentNode());
-      AdvertisingList::switchLasttofirst();
-      countAdTime = 2;
-      time(&lastTimer);
+      OutInt->displayMessage(AdvertisingList<T>::getCurrentNode());
+      AdvertisingList<T>::switchLasttofirst();
+      countAdTime = TEMPOANUNCIO;
     }
+    time(&lastTimer);
   }
 }
 else {
   time(&timer);
-  if (difftime(timer, lastTimer) > 1) {
+  if (difftime(timer, lastTimer) >= 1) {
     countAdTime--;
     if (countAdTime == 0) {
-          countAdTime = 1;
+          countAdTime = TEMPOTEMPO;
           time(&lastTimer);
           OutInt->displayMessage(asctime(localtime(&timer)));
     }
+          time(&lastTimer);
   }
 }
 }

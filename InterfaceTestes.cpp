@@ -8,7 +8,9 @@
 #include <iostream>
 #include <stdlib.h>
 #include <string>
+#include <sys/file.h>
 #include <time.h>
+#include <unistd.h>
 
 using namespace std;
 
@@ -18,7 +20,7 @@ int main() {
   bool inputOpen = 1;
   int option = 0;
   while (inputOpen) {
-    //MENU DE ENTRADAS
+    // MENU DE ENTRADAS
     cout << endl
          << "MENU DE ENTRADAS" << endl
          << "==================" << endl
@@ -35,10 +37,10 @@ int main() {
          << "11 - MANUTENCAO" << endl
          << "12 - Fechar Programa" << endl;
 
-    //Entrada do usuario
+    // Entrada do usuario
     cin >> option;
 
-    //Selecao
+    // Selecao
     switch (option) {
     case 1:
       writeToFile('a');
@@ -87,9 +89,12 @@ int main() {
   return 0;
 }
 
+//Escreve a Entrada selecionada no arquivo a ser lido pelo programa principal
 void writeToFile(char input) {
-  ofstream outfile;
-  outfile.open("inputs.txt", ios::trunc);
-  outfile << input << endl;
-  outfile.close();
+  ofstream myfile ("inputs.txt", ios::trunc);
+  if(myfile.is_open()){
+    myfile << input << endl;
+    myfile.close();
+  }
+  else cout << "Erro no arquivo" << endl;
 }

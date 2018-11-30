@@ -6,6 +6,7 @@
 
 #include "OutputInterface.h"
 
+//Construtores e Destrutores
 OutputInterface::OutputInterface() {
 }
 

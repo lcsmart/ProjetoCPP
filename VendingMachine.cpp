@@ -4,17 +4,34 @@
 // Projeto Final - Vending Machine
 // VendingMachine.cpp
 
+#define TERMINALLINUX
+//#define EMBEDDEDTERMINAL
+
+#define TEMPOANUNCIO 1
+#define TEMPOTEMPO 1
+
+#include <sys/file.h>
+#include <unistd.h>
+
 #include <fstream>
 #include <iostream>
+#include <lcd.h>
 #include <stdlib.h>
 #include <string>
+#include <sstream>
 #include <time.h>
+#include <wiringPi.h>
 
 using namespace std;
 
 #include "OutputInterface.cpp"
 
+#ifdef TERMINALLINUX
 #include "TerminalInterface.cpp"
+#endif
+#ifdef EMBEDDEDTERMINAL
+#include "EmbeddedInterface.cpp"
+#endif
 
 #include "Stock.cpp"
 
@@ -26,6 +43,9 @@ void adOptions();
 void addAd();
 void removeAd();
 void showAds();
+char readInput();
+
+void areYouSure();
 
 void stockOptions();
 void addEtirps();
@@ -35,91 +55,98 @@ void removeMeet();
 void showStock();
 void maintenance();
 
-//#ifdef PC
+#ifdef TERMINALLINUX
 TerminalInterface *OutInterface = new TerminalInterface();
-//#endif
+#endif
+#ifdef EMBEDDEDTERMINAL
+EmbeddedInterface *OutInterface = new EmbeddedInterface();
+#endif
 
 List *fsm = new List(OutInterface);
-Stock currentStock;
 
-AdvertisingDisplay *Fila1 = new AdvertisingDisplay(OutInterface);
-AdvertisingList *Fila2 = new AdvertisingList();
+AdvertisingDisplay<string> *Fila1 = new AdvertisingDisplay<string>(OutInterface);
+
+AdvertisingList<string> *Fila2 = new AdvertisingList<string>();
 
 int change;
 int state;
 
-AdvertisingNode *address1;
-AdvertisingNode *address2;
-AdvertisingNode *ptrFunc;
+AdvertisingNode<string> *address1;
+AdvertisingNode<string> *address2;
+AdvertisingNode<string> *ptrFunc;
 
 main() {
-
+  stringstream intStr;
   while (1) {
-    char input = 0;
-    ifstream readStateFile;
-    readStateFile.open("inputs.txt", ios::in);
-
-    if (readStateFile.is_open()) {
-      input = readStateFile.get();
-      readStateFile.close();
-      cout << "Input: " << input << endl;
-      remove("inputs.txt");
-    }
-
-
-
+    char input = readInput();
     switch (input) {
-
     case 'a': // Moeda 25
       change = fsm->entradaM025();
       state = fsm->getEstadoAtual();
       if (change == 0) {
-        cout << "Moeda computada" << endl;
+        intStr.str("");
+        intStr << "Moeda Computada" << endl << "Saldo: " << state;
+        OutInterface->displayMessage(intStr.str());
       } else {
-        cout << "Troco:" << change << endl;
+        intStr.str("");
+        intStr << "Troco: " << change << endl << "Saldo: " << state;
+        OutInterface->displayMessage(intStr.str());
       }
-      cout << "Estado Atual: " << state << endl;
       break;
 
     case 'b': // Moeda 50
       change = fsm->entradaM050();
       state = fsm->getEstadoAtual();
       if (change == 0) {
-        cout << "Moeda computada" << endl;
+        intStr.str("");
+        intStr << "Moeda Computada" << endl << "Saldo: " << state;
+        OutInterface->displayMessage(intStr.str());
       } else {
-        cout << "Troco:" << change << endl;
+        intStr.str("");
+        intStr << "Troco: " << change << endl << "Saldo: " << state;
+        OutInterface->displayMessage(intStr.str());
       }
-      cout << "Estado Atual: " << state << endl;
       break;
 
     case 'c': // Moeda 100
       change = fsm->entradaM100();
       state = fsm->getEstadoAtual();
       if (change == 0) {
-        cout << "Moeda computada" << endl;
+        intStr.str("");
+        intStr << "Moeda Computada" << endl << "Saldo: " << state;
+        OutInterface->displayMessage(intStr.str());
       } else {
-        cout << "Troco:" << change << endl;
+        intStr.str("");
+        intStr << "Troco: " << change << endl << "Saldo: " << state;
+        OutInterface->displayMessage(intStr.str());
       }
-      cout << "Estado Atual: " << state << endl;
       break;
 
     case 'D': // Devolucao
       change = fsm->entradaDEV();
-      state = fsm->getEstadoAtual();
-      cout << "Valor devolvido: " << change << endl;
-      cout << "Estado Atual: " << state << endl;
+      cout << fsm->getEstadoAtual();
+      intStr.str("");
+      intStr << "Valor devolvido: " << change << endl;
+      OutInterface->displayMessage(intStr.str());
+      usleep(2000000);
       break;
 
     case 'E': // Ertips
+    if(fsm->getEtirpsCount() > 0){
       fsm->entradaETIRPS();
-      state = fsm->getEstadoAtual();
-      cout << "Estado Atual: " << state << endl;
+    }
+    else     {  OutInterface->displayMessage("Não há Etirps em estoque");
+    usleep(2000000);
+  }
       break;
 
     case 'M': // Meet
+    if(fsm->getMeetCount() > 0){
       fsm->entradaMEET();
-      state = fsm->getEstadoAtual();
-      cout << "Estado Atual: " << state << endl;
+    }
+        else  {  OutInterface->displayMessage("Não há Meets em estoque");
+        usleep(2000000);
+      }
       break;
 
     case 'F': // AtualizarFila
@@ -131,12 +158,7 @@ main() {
       break;
 
     case 'R': // RemoverItemDaFila
-      break;
-
-    case 'Y': // Sim
-      break;
-
-    case 'N': // Nao
+      areYouSure();
       break;
 
     case 'O': // Manutencao
@@ -144,7 +166,9 @@ main() {
       break;
 
     default:
-      Fila1->showAd();
+      if (fsm->getEstadoAtual() == 0){
+                Fila1->showAd();
+              }
       break;
     }
   }
@@ -193,8 +217,8 @@ void stockOptions() {
     cout << endl << "MENU DE ESTOQUE" << endl << "==================" << endl;
     cout << "1 - Adicionar Refrigerante Etirps" << endl
          << "2 - Adicionar Refrigerante Meet" << endl
-         << "4 - Consultar Estoque" << endl
-         << "5 - Voltar" << endl;
+         << "3 - Consultar Estoque" << endl
+         << "4 - Voltar" << endl;
 
     // Entrada do usuario
     cin >> option;
@@ -209,7 +233,7 @@ void stockOptions() {
       addMeet();
       break;
 
-    case 4:
+    case 3:
       showStock();
       break;
 
@@ -223,17 +247,17 @@ void addEtirps() {
   cout << "Quantos Etirps foram adicionados?" << endl;
   int etirpsCount;
   cin >> etirpsCount;
-  currentStock.addEtirps(etirpsCount);
+  fsm->addEtirps(etirpsCount);
 }
 void addMeet() {
   cout << "Quantos Meets foram adicionados?" << endl;
   int meetsCount;
   cin >> meetsCount;
-  currentStock.addMeet(meetsCount);
+  fsm->addMeet(meetsCount);
 }
 void showStock() {
-  cout << "No momento existem " << currentStock.getEtirpsCount() << " Etirps e "
-       << currentStock.getMeetCount() << " Meets em estoque." << endl;
+  cout << "No momento existem " << fsm->getEtirpsCount() << " Etirps e "
+       << fsm->getMeetCount() << " Meets em estoque." << endl;
 }
 
 // MENU DE PROPAGANDAS
@@ -246,7 +270,7 @@ void adOptions() {
          << "MENU DE PROPAGANDAS" << endl
          << "______________________________________" << endl;
     cout << "1 - Adicionar Propaganda a fila 2" << endl
-         << "2 - Remover Propagandas da fila 2" << endl
+         << "2 - Remover Ultima Propaganda da fila 2" << endl
          << "3 - Exibir propagandas na fila 2" << endl
          << "4 - Voltar" << endl;
 
@@ -279,12 +303,101 @@ void addAd() {
   string advertising;
   cin.ignore();
   getline(std::cin, advertising);
-  ptrFunc = new AdvertisingNode();
+  ptrFunc = new AdvertisingNode<string>();
   ptrFunc->setAdvertising(advertising);
   Fila2->insertionNode(ptrFunc);
 }
-void removeAd() { cout << "Remover propagandas*" << endl; }
+void removeAd() {
+  cout << "Ultima propaganda removida" << endl;
+  Fila2->removeLastnode();
+}
 void showAds() {
   cout << endl << "Fila 2: " << endl;
   Fila2->listAll();
+}
+
+char readInput() {
+  char input = 0;
+#ifdef TERMINALLINUX
+  fstream myfile;
+  myfile.open("inputs.txt");
+  if (myfile.is_open()) {
+    usleep(1000);
+    myfile.get(input);
+    // myfile << 0 << endl;
+    myfile.close();
+    ofstream clearFile;
+    clearFile.open("inputs.txt", std::ofstream::out | std::ofstream::trunc);
+    clearFile.close();
+    //remove("inputs.txt");
+  }
+
+  //else
+  //  cout << "Erro no arquivo" << endl;
+
+/*  int readStateFile = open("inputs.txt", O_RDONLY, 0x777);
+  if(flock(readStateFile, LOCK_EX) == 0){
+  read(readStateFile, &input, 1);
+  flock(readStateFile, LOCK_UN);
+  close(readStateFile);
+  remove("inputs.txt");
+  cout << "Input: " << input << endl;
+}*/
+#endif
+
+#ifdef EMBEDDEDTERMINAL
+  bool moeda25, moeda50, moeda100, devolver, etirps, meet, atualizarfila,
+      removeranuncio, sim, nao, manutencao;
+
+  if (moeda100 != (moeda100 = digitalRead(MOEDA100))) {
+    if (moeda100)
+      input = 'c';
+  } else if (moeda50 != (moeda50 = digitalRead(MOEDA50))) {
+    if (moeda50)
+      input = 'b';
+  } else if (moeda25 != (moeda25 = digitalRead(MOEDA25))) {
+    if (moeda25)
+      input = 'a';
+  } else if (devolver != (devolver = digitalRead(DEVOLVER))) {
+    if (devolver)
+      input = 'D';
+  } else if (etirps != (etirps = digitalRead(ETIRPS))) {
+    if (etirps)
+      input = 'E';
+  } else if (meet != (meet = digitalRead(MEET))) {
+    if (meet)
+      input = 'M';
+  } else if (atualizarfila != (atualizarfila = digitalRead(ATUALIZARFILA))) {
+    if (atualizarfila)
+      input = 'F';
+  } else if (removeranuncio != (removeranuncio = digitalRead(REMOVERANUNCIO))) {
+    if (removeranuncio)
+      input = 'R';
+  } else if (sim != (sim = digitalRead(SIM))) {
+    if (sim)
+      input = 'Y';
+  } else if (nao != (nao = digitalRead(NAO))) {
+    if (nao)
+      input = 'N';
+  } else if (manutencao != (manutencao = digitalRead(MANUTENCAO))) {
+    if (manutencao)
+      input = 'O';
+  }
+#endif
+  return input;
+}
+
+void areYouSure() {
+  cout << "Você tem certeza que deseja deletar a propaganda: "
+       << Fila1->getLastNode() << "?" << endl;
+  char answer = 0;
+  while (!answer)
+    answer = readInput();
+  switch (answer) {
+  case 'Y':
+    Fila1->removeLastnode();
+    break;
+  default:
+    break;
+  }
 }

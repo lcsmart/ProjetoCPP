@@ -4,6 +4,7 @@
 // Projeto Final - Vending Machine
 // Stock.h
 
+//classe que representa o estoque de bebidas
 class Stock {
   Drink *Etirps;
   Drink *Meet;

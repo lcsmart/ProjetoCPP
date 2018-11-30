@@ -12,6 +12,7 @@ TerminalInterface::TerminalInterface() {
 TerminalInterface::~TerminalInterface() {
 }
 
+//Definicao da Funcao Abstrata para Interface Terminal
 void TerminalInterface::displayMessage(string message){
-  cout << message << endl;
+  cout << "(---------------Display---------------)" << endl << message << endl << "(---------------Display---------------)" << endl;
 }
